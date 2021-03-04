@@ -1,8 +1,10 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from .models import *
 from .serializers import *
 from .pagination import ListPagination
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.response import Response
+
 
 
 class CompanyView(generics.ListAPIView):
@@ -34,17 +36,24 @@ class AdvertismentView(generics.ListAPIView):
     queryset = Advertisment.objects.all()
     serializer_class = AdvertismentViewSerializer
     pagination_class = ListPagination
-    
+    lookup_field = 'pk'
     filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ('company', 'title',)
-    search_fields = ('company', 'title',)
+    filterset_fields = ('company__company_name', 'title',)
+    search_fields = ('company__company_name', 'title',)
 
 class AdvertismentCreate(generics.CreateAPIView):
     serializer_class = AdvertismentCreateSerializer
     
-    def get_serializer_context(self):
-        context = super(AdvertismentCreate, self).get_serializer_context()
-        return context
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        company = Company.objects.get(pk=request.data['company'])
+        if company.owner == self.request.user:
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response({"OK"}, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            return Response({"You fo not have permissions"}, status=status.HTTP_400_BAD_REQUEST)
 
 class AdvertismentDetail(generics.RetrieveAPIView):
     queryset = Advertisment.objects.all()
