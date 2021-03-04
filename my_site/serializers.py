@@ -29,22 +29,18 @@ class CompanyDetailSerializer(serializers.ModelSerializer):
 class AdvertismentViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Advertisment
-        fields = ('company', 'title', 'body', 'image', 'id')
+        fields = ('company', 'title', 'body', 'image', 'created_at','id')
 
 class AdvertismentCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Advertisment
-        fields = ('company','title', 'body', 'image')
+        fields = ('title', 'body', 'image', 'company')
     
-    def create(self, validated_data):
-        advert = Advertisment.objects.create(**validated_data)
-        advert.save()
-        return advert
 
 class AdvertismentDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Advertisment
-        fields = ('company', 'title', 'body', 'image', 'id')
+        fields = ('company', 'title', 'body', 'image', 'created_at','id')
 
 
 
