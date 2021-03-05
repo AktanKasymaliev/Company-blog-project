@@ -10,6 +10,7 @@ class CompanySerializer(serializers.ModelSerializer):
         fields = ('owner', 'company_name', 'logo', 'address', 'phone', 'info', 'id')
 
 class CompanyCreateSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = Company
         fields = ('company_name', 'logo', 'address', 'phone', 'info')
@@ -36,23 +37,41 @@ class CompanyEditSerializer(serializers.ModelSerializer):
 class AdvertismentViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Advertisment
-        fields = ('company', 'title', 'body', 'image', 'created_at','id')
+        fields = ('company', 'title', 'body', 'created_at','id')
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['images'] = instance.images.count()
+        representation['company'] = instance.company.company_name
+        return representation
 
 class AdvertismentCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Advertisment
-        fields = ('title', 'body', 'image', 'company')
+        fields = ('title', 'body', 'company')
     
 
 class AdvertismentDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Advertisment
-        fields = ('company', 'title', 'body', 'image', 'created_at','id')
+        fields = ('company', 'title', 'body', 'created_at','id')
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['images'] = instance.images.count()
+        representation['company'] = instance.company.company_name
+        return representation
+
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AdvertismentImages
+        fields = ('image', 'description')
+
 
 class AdvertismentEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = Advertisment
-        fields = ('title', 'body', 'image', 'company')
+        fields = ('title', 'body', 'company')
 
 
 
