@@ -1,6 +1,9 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from .views import *
 
+router = DefaultRouter()
+router.register('image', ImageViewSet)
 
 urlpatterns = [
     path('list/', CompanyView.as_view(), name='company_view'),
@@ -12,4 +15,6 @@ urlpatterns = [
     path('create/ad/', AdvertismentCreate.as_view(), name='create_advertisment'),
     path('detail/ad/<int:pk>/', AdvertismentDetail.as_view(), name='detail_advertisment'),
     path('update/ad/<int:pk>/', AdvertismentEdit.as_view(), name='edit_advertisment'),
+    #Image routers
+    path('', include(router.urls)),
 ]

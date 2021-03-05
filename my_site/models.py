@@ -24,8 +24,21 @@ class Advertisment(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     body = models.TextField()
-    image = models.ImageField(upload_to='ad_images', null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f'{self.title} - by {self.company}'
+
+class AdvertismentImages(models.Model):
+    ad = models.ForeignKey(Advertisment, on_delete=models.CASCADE, 
+                                         related_name='images')
+    image = models.ImageField(upload_to='ad_images', 
+                              null=True,
+                              blank=True)
+    description = models.CharField(max_length=55)
+
+    def __str__(self):
+        if self.image:
+            return self.image.url
+        else:
+            return ''
