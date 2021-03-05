@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .models import *
 
 
+
+
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
@@ -23,6 +25,11 @@ class CompanyDetailSerializer(serializers.ModelSerializer):
         model = Company
         fields = ('owner', 'company_name', 'logo', 'address', 'phone', 'info', 'id')
 
+class CompanyEditSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = ('company_name', 'logo', 'address', 'phone', 'info')
+
 
 
 # Advertisment serializers
@@ -41,6 +48,12 @@ class AdvertismentDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Advertisment
         fields = ('company', 'title', 'body', 'image', 'created_at','id')
+
+class AdvertismentEditSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Advertisment
+        fields = ('title', 'body', 'image', 'company')
+
 
 
 
