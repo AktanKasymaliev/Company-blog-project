@@ -7,6 +7,7 @@ from rest_framework.response import Response
 
 
 
+
 class CompanyView(generics.ListAPIView):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
@@ -30,8 +31,14 @@ class CompanyDetail(generics.RetrieveAPIView):
     queryset = Company.objects.all()
     serializer_class = CompanyDetailSerializer
 
-#Advertisment vews
 
+
+class CompanyEdit(generics.UpdateAPIView):
+    serializer_class = CompanyEditSerializer
+    queryset = Company.objects.all()
+
+
+#Advertisment vews
 class AdvertismentView(generics.ListAPIView):
     queryset = Advertisment.objects.all()
     serializer_class = AdvertismentViewSerializer
@@ -53,8 +60,13 @@ class AdvertismentCreate(generics.CreateAPIView):
             headers = self.get_success_headers(serializer.data)
             return Response({"OK"}, status=status.HTTP_201_CREATED, headers=headers)
         else:
-            return Response({"You fo not have permissions"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"You do not have permissions"}, status=status.HTTP_400_BAD_REQUEST)
 
 class AdvertismentDetail(generics.RetrieveAPIView):
     queryset = Advertisment.objects.all()
     serializer_class = AdvertismentDetailSerializer    
+
+
+class AdvertismentEdit(generics.UpdateAPIView):
+    queryset = Advertisment.objects.all()
+    serializer_class = AdvertismentEditSerializer
