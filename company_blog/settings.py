@@ -31,6 +31,8 @@ DEBUG = config('DEBUG_SET')
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'my_user.User'
+
 
 # Application definition
 
@@ -48,6 +50,7 @@ INSTALLED_APPS = [
     
     #my apps
     'my_site',
+    'my_user',
 ]
 
 MIDDLEWARE = [
@@ -137,6 +140,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 # Static files (CSS, JavaScript, Images)
