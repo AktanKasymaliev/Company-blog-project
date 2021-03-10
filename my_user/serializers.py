@@ -20,6 +20,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         email = attrs['email']
         password = attrs['password']
+        password2 = attrs['password2']
         if password != password2:
             raise serializers.ValidationError({'password':'The two passwords differ'})
         if email and User.objects.filter(email=email).exists():
