@@ -144,8 +144,8 @@ USE_TZ = True
 
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'akttan04@gmail.com'
-EMAIL_HOST_PASSWORD = 'Aktancraft'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
